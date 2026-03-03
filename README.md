@@ -32,6 +32,7 @@ The core is a tiny Python HTTP server that exposes a browser‑based config page
 
 ```text
 opentheclaw/
+  logo.svg              # project logo (used at top of this README)
   mac/
     Click-OpenClaw.command           # macOS launcher (Web UI + SSH tunnel)
     Click-OpenClawShell.command      # macOS launcher for interactive SSH shell
