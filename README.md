@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Jah-yee/OpentheClaw/main/logo.svg" width="640" height="98" alt="OpentheClaw logo" />
+  <img src="https://raw.githubusercontent.com/Jah-yee/OpentheClaw/main/logo.svg" width="520" height="289" alt="OpentheClaw logo" />
 </p>
 
 <p align="center">
