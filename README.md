@@ -177,5 +177,5 @@ To port it to other environments, you mainly need to adjust how SSH is invoked o
 
 ## License
 
-MIT License © 2026 Jah-yee.
+Business Source License 1.1 (BSL 1.1). See [LICENSE](LICENSE). © 2026 Jah-yee.
 
