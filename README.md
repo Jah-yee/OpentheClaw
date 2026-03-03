@@ -4,6 +4,7 @@
 
 <p align="center">
   One‑click SSH tunnel + Web UI starter.
+  No terminal needed. Every day Use.
 </p>
 
 <p align="center">
@@ -16,21 +17,18 @@
 
 ---
 
-**One‑click SSH tunnel + Web login.**  
-No terminal needed. Every day Use.
-
 # OpenClaw SSH Launcher
 
 Your app's Web UI only listens on the server (e.g. `http://127.0.0.1:18789/`). You SSH in anyway—so why type commands every time? **Set it up once, then launch tunnel + browser with one double‑click.**
 
 A tiny Python HTTP server: web config UI, then it runs your system `ssh` and opens the URL.
 
-**You never have to:**
+**✗ You never have to:**
 
-- ✗ Open a terminal  
-- ✗ Type SSH commands  
-- ✗ Enter your password  
-- ✗ Switch tabs
+- Open a terminal  
+- Type SSH commands  
+- Enter your password  
+- Switch tabs
 
 ## Layout
 
