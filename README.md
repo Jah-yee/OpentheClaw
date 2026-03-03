@@ -159,18 +159,16 @@ Think of the flow in three steps:
 
 ### 1. Configure via the browser
 
-> **On macOS**
+- **On macOS**  
+  > Double‑click `mac/Click-OpenClawConfig.command`.
 
-- In Finder, double‑click `mac/Click-OpenClawConfig.command`.  
-  A Terminal window may briefly appear while the browser opens.
+- **On Linux**  
+  > In your file manager, double‑click `linux/Click-OpenClawConfig-linux.sh`.  
+  > If your desktop environment asks whether to “Run in terminal” or “Display”, choose **Run** / **Execute**.
 
-> **On Linux**
-
-- Double‑click `linux/Click-OpenClawConfig-linux.sh`.
-
-> **On Windows**
-
-- Double‑click `windows\Click-OpenClawConfig-windows.bat`.
+- **On Windows**  
+  > In Explorer, double‑click `windows\Click-OpenClawConfig-windows.bat`.  
+  > A console window may briefly appear while the browser opens.
 
 Your browser will open a simple configuration page. You only need to fill three things:
 
