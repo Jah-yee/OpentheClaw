@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./logo.svg" width="180" height="100" alt="OpentheClaw logo" />
+  <img src="https://raw.githubusercontent.com/Jah-yee/OpentheClaw/main/logo.svg" width="180" height="100" alt="OpentheClaw logo" />
 </p>
 
 <p align="center">
@@ -16,17 +16,21 @@
 
 ---
 
+**One‑click SSH tunnel + Web login.**  
+No terminal needed. Every day Use.
+
 # OpenClaw SSH Launcher
 
-A small, minimal launcher that turns “SSH port forwarding + open a Web UI” into a **one‑click / double‑click** experience, without asking users to touch the terminal.
+Your app's Web UI only listens on the server (e.g. `http://127.0.0.1:18789/`). You SSH in anyway—so why type commands every time? **Set it up once, then launch tunnel + browser with one double‑click.**
 
-Typical use cases (not limited to OpenClaw):
+A tiny Python HTTP server: web config UI, then it runs your system `ssh` and opens the URL.
 
-- You have a remote server whose Web UI is only reachable from inside that server (e.g. `http://127.0.0.1:18789/`).
-- You can SSH into that server.
-- You want: configure once, then just double‑click an icon to bring up the SSH tunnel and browser every day.
+**You never have to:**
 
-The core is a tiny Python HTTP server that exposes a browser‑based config page and then shells out to the system `ssh` client.
+- ✗ Open a terminal  
+- ✗ Type SSH commands  
+- ✗ Enter your password  
+- ✗ Switch tabs
 
 ## Layout
 
@@ -89,7 +93,7 @@ Think of the flow in three steps:
 
 - **On Linux**  
   > In your file manager, double‑click `linux/Click-OpenClawConfig-linux.sh`.  
-  > If your desktop environment asks whether to “Run in terminal” or “Display”, choose **Run** / **Execute**.
+  > If your desktop environment asks whether to "Run in terminal" or "Display", choose **Run** / **Execute**.
 
 - **On Windows**  
   > In Explorer, double‑click `windows\Click-OpenClawConfig-windows.bat`.  
@@ -101,7 +105,7 @@ Your browser will open a simple configuration page. You only need to fill three 
 - **SSH address** – the same `user@host` you normally type in a terminal, for example `root@43.210.12.345`.
 - **Web UI URL** – the URL you want in your browser after the SSH tunnel is ready, e.g. `http://127.0.0.1:18789/`.
 
-If you click “Show advanced options”, you can also adjust ports, remote host and an optional password, but the defaults are fine for most setups.
+If you click "Show advanced options", you can also adjust ports, remote host and an optional password, but the defaults are fine for most setups.
 
 At the bottom of the page you can:
 
@@ -110,7 +114,7 @@ At the bottom of the page you can:
 
 ### 2. Daily usage
 
-Once configured, you usually don’t need to change the settings very often.
+Once configured, you usually don't need to change the settings very often.
 
 - **Open Web UI (most common)**  
   - macOS: double‑click `mac/Click-OpenClaw.command`.
@@ -121,7 +125,7 @@ Once configured, you usually don’t need to change the settings very often.
 
   - Start an SSH tunnel according to `launcher/openclaw_launcher.json`.
   - Open the configured Web UI URL in your default browser.
-  - Optionally “warm up” the page with a silent HTTP request so the first paint feels faster (best effort).
+  - Optionally "warm up" the page with a silent HTTP request so the first paint feels faster (best effort).
 
 - **Open an interactive SSH shell (macOS)**  
   - Double‑click `mac/Click-OpenClawShell.command`.
@@ -168,12 +172,11 @@ This project only uses the Python standard library and basic system tools:
 
 - Python 3 (`http.server`, `json`, `subprocess`, etc.)
 - `ssh` client
-- A default browser (opened via Python’s `webbrowser` module)
+- A default browser (opened via Python's `webbrowser` module)
 
 To port it to other environments, you mainly need to adjust how SSH is invoked or how the browser is opened; all application logic is in `launcher/openclaw_launcher.py`.
 
 ## License
 
 MIT License © 2026 Jah-yee.
-
 
