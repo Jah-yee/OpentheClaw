@@ -2,6 +2,7 @@
 import http.server
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -42,6 +43,38 @@ def save_config(cfg):
         json.dump(cfg, f, indent=2, ensure_ascii=False)
 
 
+def build_ssh_command(cfg, for_webui: bool):
+    """
+    Build the SSH command for either the web UI tunnel or an interactive shell.
+
+    If a password is provided in the config and sshpass is available, sshpass
+    will be used to provide the password automatically.
+    """
+
+    base_cmd = ["ssh"]
+
+    # Avoid interactive host key prompts for this helper.
+    base_cmd += ["-o", "StrictHostKeyChecking=no"]
+
+    if for_webui:
+        # Background tunnel only, no interactive shell.
+        base_cmd += ["-fN"]
+
+    # Port forwarding
+    base_cmd += [
+        "-L",
+        f"{cfg['local_port']}:{cfg['remote_host']}:{cfg['remote_port']}",
+        f"{cfg['user']}@{cfg['host']}",
+    ]
+
+    password = (cfg.get("password") or "").strip()
+    if password and shutil.which("sshpass"):
+        # Use sshpass to provide the password non‑interactively when available.
+        return ["sshpass", "-p", password] + base_cmd
+
+    return base_cmd
+
+
 class ConfigHandler(http.server.BaseHTTPRequestHandler):
     def _read_config(self):
         cfg = load_config()
@@ -50,7 +83,7 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         return cfg
 
     def _render_form(self, cfg, message=""):
-        """Render the minimal configuration form as HTML."""
+        """Render the configuration form as HTML (kept intentionally minimal)."""
 
         def esc(val):
             return html.escape(str(val if val is not None else ""))
@@ -82,31 +115,43 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
     }}
     .card {{
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
       background: #ffffff;
       border-radius: 16px;
-      padding: 20px 22px 18px;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      padding: 22px 22px 18px;
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
       border: 1px solid #e5e7eb;
     }}
     .header-title {{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 4px;
     }}
     .header-subtitle {{
       font-size: 13px;
       color: #6b7280;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }}
+    .logo-word {{
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: #0b1120;
+      color: #e5e7eb;
+      font-size: 11px;
+      font-weight: 500;
     }}
     .field {{
-      margin-top: 10px;
+      margin-top: 12px;
     }}
     .field label {{
       display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: #374151;
+      font-size: 13px;
+      font-weight: 600;
+      color: #111827;
       margin-bottom: 4px;
     }}
     .field input[type="text"],
@@ -130,7 +175,7 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
       box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.4);
     }}
     .hint {{
-      margin-top: 3px;
+      margin-top: 4px;
       font-size: 11px;
       color: #6b7280;
     }}
@@ -199,18 +244,37 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
     .btn-secondary:hover {{
       background: #f9fafb;
     }}
+    .field-header {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }}
+    .link-button {{
+      border: none;
+      background: none;
+      padding: 0;
+      margin: 0;
+      font-size: 11px;
+      color: #2563eb;
+      cursor: pointer;
+    }}
+    .link-button:hover {{
+      text-decoration: underline;
+    }}
     small {{
       font-size: 11px;
+    }}
+    .footer {{
+      margin-top: 16px;
+      font-size: 11px;
+      color: #9ca3af;
+      text-align: right;
     }}
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="header-title">OpenClaw connection</div>
-    <div class="header-subtitle">
-      Tell us how you normally SSH and which Web UI you want to open.
-      We will handle the SSH tunnel and browser for you.
-    </div>
     {"<div class='message'>" + esc(message) + "</div>" if message else ""}
     <form method="POST">
       <div class="field">
@@ -228,12 +292,12 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         <input
           type="text"
           name="ssh_address"
-          placeholder="e.g. root@43.159.36.166"
+          placeholder="e.g. root@43.210.12.345"
           value="{esc(ssh_address)}"
         />
         <div class="hint">
           The same <code>user@host</code> you would type in a terminal,
-          for example <code>root@43.159.36.166</code>.
+          for example <code>root@43.210.12.345</code>.
         </div>
       </div>
 
@@ -251,8 +315,27 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         </div>
       </div>
 
+      <div class="field">
+        <div class="field-header">
+          <label>SSH password (optional)</label>
+          <button type="button" id="password-toggle" class="link-button" onclick="togglePasswordVisibility()">
+            Show
+          </button>
+        </div>
+        <input
+          type="password"
+          id="password-input"
+          name="password"
+          placeholder="Using SSH keys is recommended; password is only for special cases"
+          value="{esc(cfg.get("password", ""))}"
+        />
+        <div class="hint">
+          The password is stored only in a local JSON file on this machine. Prefer SSH keys on shared or untrusted devices.
+        </div>
+      </div>
+
       <div class="advanced-toggle" onclick="toggleAdvanced()" id="advanced-toggle">
-        <span>▸</span><small>Show advanced options (ports, password)</small>
+        <span>▸</span><small>Show advanced options (ports)</small>
       </div>
 
       <div class="advanced" id="advanced">
@@ -291,20 +374,6 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
             Host where the Web UI listens on the server, usually <code>127.0.0.1</code>.
           </div>
         </div>
-
-        <div class="field">
-          <label>SSH password (optional)</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Using SSH keys is recommended; password is only for special cases"
-            value="{esc(cfg.get("password", ""))}"
-          />
-          <div class="hint">
-            The password is stored in plain text in the local config file.
-            Only use this on machines you fully trust. SSH keys are strongly recommended instead.
-          </div>
-        </div>
       </div>
 
       <div class="actions">
@@ -316,6 +385,10 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         </button>
       </div>
     </form>
+    <div class="footer">
+      Build with ❤ and &lt;/&gt; by
+      <a href="https://github.com/Jah-yee" target="_blank" rel="noreferrer">RoomWithOutRoof</a>.
+    </div>
   </div>
   <script>
     function toggleAdvanced() {{
@@ -327,6 +400,15 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
       toggle.querySelector('small').textContent = visible
         ? 'Hide advanced options'
         : 'Show advanced options (ports, password)';
+    }}
+
+    function togglePasswordVisibility() {{
+      const input = document.getElementById('password-input');
+      const toggle = document.getElementById('password-toggle');
+      if (!input || !toggle) return;
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      toggle.textContent = isHidden ? 'Hide' : 'Show';
     }}
   </script>
 </body>
@@ -411,7 +493,7 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def log_message(self, fmt, *args):
-        # 静音 HTTP 访问日志，避免终端太吵
+        # Silence HTTP access logs to keep the terminal output clean.
         pass
 
 
@@ -422,7 +504,7 @@ def start_config_server():
     # If the config UI is already running, do not start another instance
     try:
         with urllib.request.urlopen(url, timeout=1):
-            print(f"配置界面已在运行: {url}")
+            print(f"Config UI already running at {url}")
             return
     except Exception:
         pass
@@ -450,12 +532,7 @@ def ensure_config_or_open_ui():
 
 
 def run_shell(cfg):
-    cmd = [
-        "ssh",
-        "-L",
-        f"{cfg['local_port']}:{cfg['remote_host']}:{cfg['remote_port']}",
-        f"{cfg['user']}@{cfg['host']}",
-    ]
+    cmd = build_ssh_command(cfg, for_webui=False)
     subprocess.call(cmd)
 
 
@@ -467,13 +544,7 @@ def run_webui(cfg):
         (ok: bool, error_message: Optional[str])
     """
 
-    ssh_cmd = [
-        "ssh",
-        "-fN",
-        "-L",
-        f"{cfg['local_port']}:{cfg['remote_host']}:{cfg['remote_port']}",
-        f"{cfg['user']}@{cfg['host']}",
-    ]
+    ssh_cmd = build_ssh_command(cfg, for_webui=True)
     result = subprocess.run(
         ssh_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
     )

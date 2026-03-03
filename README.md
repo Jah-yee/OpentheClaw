@@ -1,10 +1,11 @@
 <p align="center">
-  <svg width="220" height="56" viewBox="0 0 220 56" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <!-- Inline logo SVG: OpenTheClaw wordmark -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 1440 320" role="img" aria-labelledby="title">
     <title id="title">OpenTheClaw</title>
-    <rect x="0" y="8" width="220" height="40" rx="20" fill="#111827"/>
-    <text x="50%" y="52%" text-anchor="middle"
+    <rect x="0" y="96" width="1440" height="128" rx="64" fill="#0b1120" />
+    <text x="50%" y="58%" text-anchor="middle"
           font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="20" fill="#e5e7eb">
+          font-size="120" fill="#e5e7eb">
       OpenTheClaw
     </text>
   </svg>
@@ -15,11 +16,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/your-name/openclaw-ssh-launcher">
-    <img src="https://img.shields.io/github/stars/your-name/openclaw-ssh-launcher?style=social" alt="GitHub stars" />
+  <a href="https://github.com/Jah-yee/OpentheClaw">
+    <img src="https://img.shields.io/github/stars/Jah-yee/OpentheClaw?style=social" alt="GitHub stars" />
   </a>
-  <a href="https://github.com/your-name/openclaw-ssh-launcher/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/your-name/openclaw-ssh-launcher/ci.yml?label=CI&logo=github" alt="Build status" />
+  <a href="https://github.com/Jah-yee/OpentheClaw/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/Jah-yee/OpentheClaw/ci.yml?label=CI&logo=github" alt="Build status" />
   </a>
   <img src="https://img.shields.io/badge/python-3.8%2B-3776AB?logo=python&logoColor=white" alt="Python 3.8+" />
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-111827" alt="Supported platforms" />
@@ -77,12 +78,20 @@ Most users only need to see and double‑click the launchers at the top level.
 
 ## Getting started
 
+You can either download this project as a ZIP from GitHub or clone it:
+
 ```bash
-git clone https://github.com/your-name/openclaw-ssh-launcher.git
-cd openclaw-ssh-launcher/opentheclaw
+git clone https://github.com/Jah-yee/OpentheClaw.git
+cd OpentheClaw/opentheclaw
 ```
 
-You can keep the `opentheclaw` folder anywhere (desktop, home directory, etc.) as long as the internal structure stays the same.
+You can move the `opentheclaw` folder wherever you like (Desktop, home directory, etc.) as long as you keep its internal structure the same.
+
+Think of the flow in three steps:
+
+1. **Configure once in your browser** (tell it how you SSH and what Web UI to open).
+2. **Double‑click the right launcher for your OS**.
+3. **Use that launcher every day** instead of typing SSH commands by hand.
 
 ### 1. Configure via the browser
 
@@ -90,36 +99,32 @@ On macOS:
 
 - Double‑click `mac/Click-OpenClawConfig.command`.
 
-On Linux / Windows:
+On Linux:
 
-- From a terminal, run:
+- In your file manager, double‑click `linux/Click-OpenClawConfig-linux.sh`.  
+  If your desktop environment asks whether to “Run in terminal” or “Display”, choose **Run** / **Execute**.
 
-  ```bash
-  # Linux
-  cd opentheclaw/linux
-  ./Click-OpenClawConfig-linux.sh
+On Windows:
 
-  # Windows (in Command Prompt or PowerShell)
-  cd opentheclaw\windows
-  .\Click-OpenClawConfig-windows.bat
-  ```
+- In Explorer, double‑click `windows\Click-OpenClawConfig-windows.bat`.  
+  A console window may briefly appear while the browser opens.
 
-Your browser will open a minimal panel where you only need to fill a few fields:
+Your browser will open a simple configuration page. You only need to fill three things:
 
-- **Connection name** – any label you like, e.g. `OpenClaw` or `Staging server`.
-- **SSH address** – exactly what you would type in a terminal, e.g. `root@43.159.36.166`.
-- **Web UI URL** – for example `http://127.0.0.1:18789/` (this is the common OpenClaw case).
+- **Connection name** – any label you like, for example `OpenClaw` or `Staging server`.
+- **SSH address** – the same `user@host` you normally type in a terminal, for example `root@43.210.12.345`.
+- **Web UI URL** – the URL you want in your browser after the SSH tunnel is ready, e.g. `http://127.0.0.1:18789/`.
 
-Advanced options (ports, remote host, password) are hidden behind a “Show advanced options” toggle and usually don’t need to be changed.
+If you click “Show advanced options”, you can also adjust ports, remote host and an optional password, but the defaults are fine for most setups.
 
-You can:
+At the bottom of the page you can:
 
-- Click **Save** to just update the JSON config.
-- Click **Save & start Web UI** to save and immediately bring up the SSH tunnel and open the Web UI in your default browser.
+- Click **Save** to just store the configuration for later.
+- Click **Save & start Web UI** to save and immediately start the SSH tunnel and open the Web UI in your browser.
 
 ### 2. Daily usage
 
-Once configured, you usually don’t need the config UI anymore.
+Once configured, you usually don’t need to change the settings very often.
 
 - **Open Web UI (most common)**  
   - macOS: double‑click `mac/Click-OpenClaw.command`.
@@ -183,6 +188,6 @@ To port it to other environments, you mainly need to adjust how SSH is invoked o
 
 ## License
 
-MIT License. Adjust the copyright line to your own name or organization.
+MIT License © 2026 Jah-yee.
 
 

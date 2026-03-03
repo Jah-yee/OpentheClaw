@@ -2,6 +2,6 @@ __pycache__/
 *.pyc
 .DS_Store
 
-# 用户本地可能生成的日志或临时文件
+# Local logs or temporary files
 *.log
 
