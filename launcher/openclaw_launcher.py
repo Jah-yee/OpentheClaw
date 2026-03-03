@@ -399,7 +399,7 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
       toggle.querySelector('span').textContent = visible ? '▾' : '▸';
       toggle.querySelector('small').textContent = visible
         ? 'Hide advanced options'
-        : 'Show advanced options (ports, password)';
+        : 'Show advanced options (ports)';
     }}
 
     function togglePasswordVisibility() {{
