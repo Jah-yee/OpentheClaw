@@ -114,11 +114,11 @@ opentheclaw/
     Click-OpenClawConfig.command     # macOS launcher for config UI
 
   linux/
-    Click-OpenClaw-linux.sh          # Linux launcher (Web UI + SSH tunnel)
+    OpenClaw-linux.sh                # Linux launcher (Web UI + SSH tunnel)
     Click-OpenClawConfig-linux.sh    # Linux launcher for config UI
 
   windows/
-    Click-OpenClaw-windows.bat       # Windows launcher (Web UI + SSH tunnel)
+    OpenClaw-windows.bat             # Windows launcher (Web UI + SSH tunnel)
     Click-OpenClawConfig-windows.bat # Windows launcher for config UI
 
   launcher/
@@ -189,8 +189,8 @@ Once configured, you usually don’t need to change the settings very often.
 
 - **Open Web UI (most common)**  
   - macOS: double‑click `mac/Click-OpenClaw.command`.
-  - Linux: run `linux/Click-OpenClaw-linux.sh`.
-  - Windows: double‑click `windows/Click-OpenClaw-windows.bat`.
+  - Linux: run `linux/OpenClaw-linux.sh`.
+  - Windows: run `windows/OpenClaw-windows.bat`.
 
   The launcher will:
 
