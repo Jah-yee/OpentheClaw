@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./logo.svg" width="180" height="100" />
+  <img src="./logo.svg" width="180" height="100" alt="OpentheClaw logo" />
 </p>
 
 <p align="center">
