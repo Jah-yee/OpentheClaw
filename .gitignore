@@ -5,3 +5,6 @@ __pycache__/
 # Local logs or temporary files
 *.log
 
+# Local nested Git repos for websites
+OpentheClaw.github.io/
+openclawhq.github.io/
