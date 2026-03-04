@@ -65,8 +65,9 @@ opentheclaw/
 
 **One-click start**
 
-- **Simplest (Linux / Windows):** From the project root, run `python3 launch.py` or `python launch.py`. This is the same as using the OS-specific launchers below and works without opening `mac/`, `linux/`, or `windows/`.
-- **By OS:** Double‑click `mac/OpenClaw.command` (macOS), run `linux/OpenClaw.sh` (Linux), or double‑click `windows/OpenClaw.bat` (Windows). Each invokes `launch.py` at the project root.
+- **Universal:** From the project root, run or double‑click **`launch.py`**. Works on Mac, Linux, and Windows—no need to open `mac/`, `linux/`, or `windows/`.
+- **Windows (if not using Universal):** Open the project folder and use the file whose name starts with **Click** (e.g. `Click-OpenClawConfig-windows.bat` to configure, then `OpenClaw.bat` to start the Web UI).
+- **By OS:** Or use `mac/OpenClaw.command`, `linux/OpenClaw.sh`, or `windows/OpenClaw.bat`; each invokes `launch.py` at the project root.
 
 ## Requirements
 
@@ -87,23 +88,26 @@ cd OpentheClaw
 
 You can move the project folder anywhere; keep its internal structure unchanged.
 
+**Universal:** Run or double‑click **`launch.py`** in the project root to start (or configure when prompted).  
+**Windows (if not using Universal):** In the project folder, find the file that starts with **Click** to open the config UI; use `OpenClaw.bat` to start the Web UI.
+
 Think of the flow in two steps: (1) **Configure once** in the browser. (2) **Use the launcher** to start the Web UI whenever you need it. On the config page, fill in **connection name**, **SSH address** (e.g. `root@43.210.12.345`), and **Web UI URL** (e.g. `http://127.0.0.1:18789/`). Use “Show advanced options” for ports and optional password, then **Save** or **Save & start Web UI**.
 
 ### Mac
 
-- **Configure once:** Double‑click `mac/Click-once-OpenClawConfig.command`. Your browser opens the config page.
-- **Start Web UI:** Double‑click `mac/OpenClaw.command`. The launcher starts the tunnel and opens the Web UI; if the tunnel fails, the config page opens so you can fix credentials.
-- **SSH shell (optional):** Double‑click `mac/OpenClawShell.command` for an interactive SSH session with the same port forwarding.
+> - **Configure once:** Double‑click `mac/Click-once-OpenClawConfig.command`. Your browser opens the config page.
+> - **Start Web UI:** Double‑click `mac/OpenClaw.command`. The launcher starts the tunnel and opens the Web UI; if the tunnel fails, the config page opens so you can fix credentials.
+> - **SSH shell (optional):** Double‑click `mac/OpenClawShell.command` for an interactive SSH session with the same port forwarding.
 
 ### Linux
 
-- **Configure once:** Double‑click `linux/Click-OpenClawConfig-linux.sh` (or right‑click → Run). If your desktop asks “Run in terminal” or “Display”, choose **Run** or **Execute**. Your browser opens the config page.
-- **Start Web UI:** Double‑click `linux/OpenClaw.sh`, or run `./linux/OpenClaw.sh` from the project folder in a terminal. If the tunnel fails, the config page opens so you can fix credentials.
+> - **Configure once:** Double‑click `linux/Click-OpenClawConfig-linux.sh` (or right‑click → Run). If your desktop asks “Run in terminal” or “Display”, choose **Run** or **Execute**. Your browser opens the config page.
+> - **Start Web UI:** Double‑click `linux/OpenClaw.sh`, or run `./linux/OpenClaw.sh` from the project folder in a terminal. If the tunnel fails, the config page opens so you can fix credentials.
 
 ### Windows
 
-- **Configure once:** Double‑click `windows/Click-OpenClawConfig-windows.bat`. A console window may briefly appear; your browser opens the config page.
-- **Start Web UI:** Double‑click `windows/OpenClaw.bat`. If the tunnel fails, run the config batch again to fix credentials. If you see “Python not found”, install Python 3 from [python.org](https://www.python.org/) and ensure it is in PATH.
+> - **Configure once:** Double‑click `windows/Click-OpenClawConfig-windows.bat`. A console window may briefly appear; your browser opens the config page.
+> - **Start Web UI:** Double‑click `windows/OpenClaw.bat`. If the tunnel fails, run the config batch again to fix credentials. If you see “Python not found”, install Python 3 from [python.org](https://www.python.org/) and ensure it is in PATH.
 
 ### Terminal (any platform)
 
