@@ -41,7 +41,11 @@ A tiny Python HTTP server: web config UI, then it runs your system `ssh` and ope
 
 ```text
 opentheclaw/
-  logo.svg              # project logo (used at top of this README)
+  OpenClaw.command       # one-click: macOS (double‑click to start Web UI)
+  OpenClaw.sh             # one-click: Linux (run to start Web UI)
+  OpenClaw.bat            # one-click: Windows (double‑click to start Web UI)
+  launch.py               # cross‑platform runner used by the three above
+  logo.svg                # project logo (used at top of this README)
   mac/
     Click-default-OpenClaw.command           # macOS launcher (Web UI + SSH tunnel)
     OpenClawShell.command      # macOS launcher for interactive SSH shell
@@ -61,10 +65,9 @@ opentheclaw/
 
   README.md
   LICENSE
-  .gitignore
 ```
 
-Most users only need to see and double‑click the launchers at the top level.
+**One-click start:** double‑click `OpenClaw.command` (Mac), run `OpenClaw.sh` (Linux), or double‑click `OpenClaw.bat` (Windows) in the project root. No need to open `mac/`, `linux/`, or `windows/` folders.
 
 ## Requirements
 
@@ -88,7 +91,7 @@ You can move the `opentheclaw` folder wherever you like (Desktop, home directory
 Think of the flow in three steps:
 
 1. **Configure once in your browser** (tell it how you SSH and what Web UI to open).
-2. **Double‑click the right launcher for your OS**.
+2. **Double‑click the one launcher for your OS** in the project root: `OpenClaw.command` (Mac), `OpenClaw.sh` (Linux), or `OpenClaw.bat` (Windows).
 3. **Use that launcher every day** instead of typing SSH commands by hand.
 
 ### 1. Configure via the browser
@@ -122,9 +125,8 @@ At the bottom of the page you can:
 Once configured, you usually don't need to change the settings very often.
 
 - **Open Web UI (most common)**  
-  - macOS: double‑click `mac/Click-default-OpenClaw.command`.
-  - Linux: run `linux/OpenClaw-linux.sh`.
-  - Windows: run `windows/OpenClaw-windows.bat`.
+  - From the project root: double‑click `OpenClaw.command` (macOS), run `OpenClaw.sh` (Linux), or double‑click `OpenClaw.bat` (Windows).  
+  - Or use the scripts inside `mac/`, `linux/`, or `windows/` if you prefer.
 
   The launcher will:
 
