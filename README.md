@@ -41,23 +41,20 @@ A tiny Python HTTP server: web config UI, then it runs your system `ssh` and ope
 
 ```text
 opentheclaw/
-  OpenClaw.command       # one-click: macOS (double‑click to start Web UI)
-  OpenClaw.sh             # one-click: Linux (run to start Web UI)
-  OpenClaw.bat            # one-click: Windows (double‑click to start Web UI)
-  launch.py               # cross‑platform runner used by the three above
+  launch.py               # main entry (run by the launchers below)
   logo.svg                # project logo (used at top of this README)
   mac/
-    Click-default-OpenClaw.command           # macOS launcher (Web UI + SSH tunnel)
-    OpenClawShell.command      # macOS launcher for interactive SSH shell
-    Click-once-OpenClawConfig.command     # macOS launcher for config UI
+    OpenClaw.command      # one-click: start Web UI (double‑click)
+    OpenClawShell.command # interactive SSH shell
+    Click-once-OpenClawConfig.command  # config UI
 
   linux/
-    OpenClaw-linux.sh                # Linux launcher (Web UI + SSH tunnel)
-    Click-OpenClawConfig-linux.sh    # Linux launcher for config UI
+    OpenClaw.sh           # one-click: start Web UI (run this)
+    Click-OpenClawConfig-linux.sh     # config UI
 
   windows/
-    OpenClaw-windows.bat             # Windows launcher (Web UI + SSH tunnel)
-    Click-OpenClawConfig-windows.bat # Windows launcher for config UI
+    OpenClaw.bat          # one-click: start Web UI (double‑click)
+    Click-OpenClawConfig-windows.bat  # config UI
 
   launcher/
     openclaw_launcher.py   # core: config UI + SSH/Web UI orchestration
@@ -67,7 +64,7 @@ opentheclaw/
   LICENSE
 ```
 
-**One-click start:** double‑click `OpenClaw.command` (Mac), run `OpenClaw.sh` (Linux), or double‑click `OpenClaw.bat` (Windows) in the project root. No need to open `mac/`, `linux/`, or `windows/` folders.
+**One-click start:** double‑click `mac/OpenClaw.command` (Mac), run `linux/OpenClaw.sh` (Linux), or double‑click `windows/OpenClaw.bat` (Windows). Each calls `launch.py` at the project root.
 
 ## Requirements
 
@@ -91,7 +88,7 @@ You can move the `opentheclaw` folder wherever you like (Desktop, home directory
 Think of the flow in three steps:
 
 1. **Configure once in your browser** (tell it how you SSH and what Web UI to open).
-2. **Double‑click the one launcher for your OS** in the project root: `OpenClaw.command` (Mac), `OpenClaw.sh` (Linux), or `OpenClaw.bat` (Windows).
+2. **Double‑click the one launcher for your OS:** `mac/OpenClaw.command` (Mac), `linux/OpenClaw.sh` (Linux), or `windows/OpenClaw.bat` (Windows).
 3. **Use that launcher every day** instead of typing SSH commands by hand.
 
 ### 1. Configure via the browser
@@ -125,8 +122,7 @@ At the bottom of the page you can:
 Once configured, you usually don't need to change the settings very often.
 
 - **Open Web UI (most common)**  
-  - From the project root: double‑click `OpenClaw.command` (macOS), run `OpenClaw.sh` (Linux), or double‑click `OpenClaw.bat` (Windows).  
-  - Or use the scripts inside `mac/`, `linux/`, or `windows/` if you prefer.
+  - Double‑click `mac/OpenClaw.command` (macOS), run `linux/OpenClaw.sh` (Linux), or double‑click `windows/OpenClaw.bat` (Windows).
 
   The launcher will:
 

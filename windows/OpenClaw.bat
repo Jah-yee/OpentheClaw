@@ -1,6 +1,6 @@
 @echo off
 setlocal
-set "ROOT=%~dp0"
+set "ROOT=%~dp0..\"
 pushd "%ROOT%"
 echo Starting OpenClaw Web UI...
 python launch.py
