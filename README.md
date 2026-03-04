@@ -37,9 +37,9 @@ A tiny Python HTTP server: web config UI, then it runs your system `ssh` and ope
 opentheclaw/
   logo.svg              # project logo (used at top of this README)
   mac/
-    Click-OpenClaw.command           # macOS launcher (Web UI + SSH tunnel)
-    Click-OpenClawShell.command      # macOS launcher for interactive SSH shell
-    Click-OpenClawConfig.command     # macOS launcher for config UI
+    Click-default-OpenClaw.command           # macOS launcher (Web UI + SSH tunnel)
+    OpenClawShell.command      # macOS launcher for interactive SSH shell
+    Click-once-OpenClawConfig.command     # macOS launcher for config UI
 
   linux/
     OpenClaw-linux.sh                # Linux launcher (Web UI + SSH tunnel)
@@ -88,7 +88,7 @@ Think of the flow in three steps:
 ### 1. Configure via the browser
 
 - **On macOS**  
-  > Double‑click `mac/Click-OpenClawConfig.command`.
+  > Double‑click `mac/Click-once-OpenClawConfig.command`.
 
 - **On Linux**  
   > In your file manager, double‑click `linux/Click-OpenClawConfig-linux.sh`.  
@@ -116,7 +116,7 @@ At the bottom of the page you can:
 Once configured, you usually don't need to change the settings very often.
 
 - **Open Web UI (most common)**  
-  - macOS: double‑click `mac/Click-OpenClaw.command`.
+  - macOS: double‑click `mac/Click-default-OpenClaw.command`.
   - Linux: run `linux/OpenClaw-linux.sh`.
   - Windows: run `windows/OpenClaw-windows.bat`.
 
@@ -127,7 +127,7 @@ Once configured, you usually don't need to change the settings very often.
   - Optionally "warm up" the page with a silent HTTP request so the first paint feels faster (best effort).
 
 - **Open an interactive SSH shell (macOS)**  
-  - Double‑click `mac/Click-OpenClawShell.command`.
+  - Double‑click `mac/OpenClawShell.command`.
   - Uses the same config, but gives you a normal SSH session with port forwarding.
 
 ## Config file (short overview)
