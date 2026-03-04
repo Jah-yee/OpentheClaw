@@ -14,6 +14,7 @@ import html
 
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "openclaw_launcher.json")
+CONFIG_UI_PORT = 18888
 
 DEFAULT_CONFIG = {
     "name": "OpenClaw",
@@ -98,9 +99,20 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
       background: #f3f4f6;
       color: #111827;
     }}
+    .card-scaler {{
+      width: 715px;
+      max-width: 95vw;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }}
     .card {{
-      width: 100%;
-      max-width: 460px;
+      width: 460px;
+      max-width: 100%;
+      transform: scale(1.55);
+      transform-origin: center center;
       background: #ffffff;
       border-radius: 16px;
       padding: 22px 22px 18px;
@@ -256,9 +268,17 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
       color: #9ca3af;
       text-align: right;
     }}
+    .tip {{
+      margin-top: 14px;
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.4;
+    }}
+    .tip a {{ color: #2563eb; }}
   </style>
 </head>
 <body>
+  <div class="card-scaler">
   <div class="card">
     {"<div class='message'>" + esc(message) + "</div>" if message else ""}
     <form method="POST">
@@ -370,10 +390,12 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         </button>
       </div>
     </form>
+    <p class="tip">You can close any terminal that opened this page. To open this page again, run the config launcher (Click-...) or go to <a href="http://127.0.0.1:{CONFIG_UI_PORT}/">http://127.0.0.1:{CONFIG_UI_PORT}/</a>.</p>
     <div class="footer">
       Build with ❤ and &lt;/&gt; by
       <a href="https://github.com/Jah-yee" target="_blank" rel="noreferrer">RoomWithOutRoof</a>.
     </div>
+  </div>
   </div>
   <script>
     function toggleAdvanced() {{
@@ -476,23 +498,47 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         pass
 
 
-def start_config_server():
-    port = 18888
+def start_config_server(open_browser=True, run_in_foreground=False):
+    """Start the config UI HTTP server. If open_browser and not run_in_foreground, run server in
+    a background process and open the browser so the terminal can close."""
+    port = CONFIG_UI_PORT
     url = f"http://127.0.0.1:{port}/"
     try:
         with urllib.request.urlopen(url, timeout=1):
             print(f"Config UI already running at {url}")
+            if open_browser:
+                try:
+                    webbrowser.open(url)
+                except Exception:
+                    pass
             return
     except Exception:
         pass
 
-    server = http.server.HTTPServer(("127.0.0.1", port), ConfigHandler)
-    print(f"Opening config UI in your browser: {url}")
-    try:
-        webbrowser.open(url)
-    except Exception:
-        pass
+    if open_browser and not run_in_foreground:
+        # Run server in background so the terminal can close; open browser and exit.
+        subprocess.Popen(
+            [sys.executable, os.path.abspath(__file__), "config", "--server-only"],
+            cwd=os.path.dirname(os.path.abspath(__file__)),
+            start_new_session=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        time.sleep(1.2)  # allow server to bind before opening browser
+        print(f"Opening config UI in your browser: {url}")
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
+        return
 
+    server = http.server.HTTPServer(("127.0.0.1", port), ConfigHandler)
+    if open_browser:
+        print(f"Opening config UI in your browser: {url}")
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
     try:
         server.serve_forever()
     except KeyboardInterrupt:
@@ -503,7 +549,7 @@ def ensure_config_or_open_ui():
     cfg = load_config()
     if cfg is None:
         print("No valid config found. Opening the local web UI to set it up.")
-        start_config_server()
+        start_config_server(open_browser=True, run_in_foreground=True)
         return None
     return cfg
 
@@ -547,10 +593,12 @@ def run_webui(cfg):
 
 
 def main():
-    mode = sys.argv[1] if len(sys.argv) > 1 else "webui"
+    argv = sys.argv[1:] if len(sys.argv) > 1 else []
+    server_only = "--server-only" in argv
+    mode = argv[0] if argv else "webui"
 
     if mode == "config":
-        start_config_server()
+        start_config_server(open_browser=not server_only)
         return
 
     if mode not in ("shell", "webui"):
@@ -570,7 +618,7 @@ def main():
         ok, _ = run_webui(cfg)
         if not ok:
             print("Opening config UI so you can fix the connection.", file=sys.stderr)
-            start_config_server()
+            start_config_server(open_browser=True, run_in_foreground=True)
             sys.exit(1)
 
 
