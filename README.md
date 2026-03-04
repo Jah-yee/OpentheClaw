@@ -14,7 +14,6 @@
   </a>
   <img src="https://img.shields.io/badge/python-3.8%2B-3776AB?logo=python&logoColor=white" alt="Python 3.8+" />
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-111827" alt="Supported platforms" />
-    </a>
     
   <p align="center">
   <a href="https://www.producthunt.com/products/opentheclaw?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-opentheclaw" target="_blank" rel="noopener noreferrer">
