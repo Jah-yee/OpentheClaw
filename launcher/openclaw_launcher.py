@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""OpenClaw launcher: web config UI, SSH tunnel, and browser open. Single file, stdlib only."""
 import http.server
 import json
 import os
@@ -44,23 +45,10 @@ def save_config(cfg):
 
 
 def build_ssh_command(cfg, for_webui: bool):
-    """
-    Build the SSH command for either the web UI tunnel or an interactive shell.
-
-    If a password is provided in the config and sshpass is available, sshpass
-    will be used to provide the password automatically.
-    """
-
-    base_cmd = ["ssh"]
-
-    # Avoid interactive host key prompts for this helper.
-    base_cmd += ["-o", "StrictHostKeyChecking=no"]
-
+    """Build SSH command for tunnel (webui) or interactive shell. Uses sshpass when password set and available."""
+    base_cmd = ["ssh", "-o", "StrictHostKeyChecking=no"]
     if for_webui:
-        # Background tunnel only, no interactive shell.
         base_cmd += ["-fN"]
-
-    # Port forwarding
     base_cmd += [
         "-L",
         f"{cfg['local_port']}:{cfg['remote_host']}:{cfg['remote_port']}",
@@ -69,9 +57,7 @@ def build_ssh_command(cfg, for_webui: bool):
 
     password = (cfg.get("password") or "").strip()
     if password and shutil.which("sshpass"):
-        # Use sshpass to provide the password non‑interactively when available.
         return ["sshpass", "-p", password] + base_cmd
-
     return base_cmd
 
 
@@ -83,8 +69,7 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         return cfg
 
     def _render_form(self, cfg, message=""):
-        """Render the configuration form as HTML (kept intentionally minimal)."""
-
+        """Render config form HTML."""
         def esc(val):
             return html.escape(str(val if val is not None else ""))
 
@@ -431,11 +416,9 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         params = urllib.parse.parse_qs(raw)
 
         action = params.get("action", ["save"])[0]
-
         base_cfg = load_config() or DEFAULT_CONFIG.copy()
         cfg = base_cfg.copy()
 
-        # Parse SSH address, e.g. root@43.159.36.166
         ssh_address = params.get("ssh_address", [""])[0].strip()
         if ssh_address:
             if "@" in ssh_address:
@@ -449,14 +432,12 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
             else:
                 cfg["host"] = ssh_address
 
-        # Basic string fields
         for key in ("name", "web_url", "password"):
             if key in DEFAULT_CONFIG:
                 val = params.get(key, [str(cfg.get(key, DEFAULT_CONFIG[key]))])[0].strip()
                 if val:
                     cfg[key] = val
 
-        # Port number fields
         for key in ("local_port", "remote_port"):
             if key in DEFAULT_CONFIG:
                 raw_val = params.get(key, [str(cfg.get(key, DEFAULT_CONFIG[key]))])[0].strip()
@@ -466,7 +447,6 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
                     except ValueError:
                         pass
 
-        # Remote host field
         if "remote_host" in DEFAULT_CONFIG:
             val = params.get("remote_host", [str(cfg.get("remote_host", DEFAULT_CONFIG["remote_host"]))])[0].strip()
             if val:
@@ -493,15 +473,12 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def log_message(self, fmt, *args):
-        # Silence HTTP access logs to keep the terminal output clean.
         pass
 
 
 def start_config_server():
     port = 18888
     url = f"http://127.0.0.1:{port}/"
-
-    # If the config UI is already running, do not start another instance
     try:
         with urllib.request.urlopen(url, timeout=1):
             print(f"Config UI already running at {url}")
@@ -537,13 +514,7 @@ def run_shell(cfg):
 
 
 def run_webui(cfg):
-    """
-    Start an SSH tunnel for the configured ports and open the Web UI URL.
-
-    Returns:
-        (ok: bool, error_message: Optional[str])
-    """
-
+    """Start SSH tunnel and open Web UI. Returns (ok: bool, error_message: Optional[str])."""
     ssh_cmd = build_ssh_command(cfg, for_webui=True)
     result = subprocess.run(
         ssh_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False
@@ -558,15 +529,10 @@ def run_webui(cfg):
         return False, error_msg
 
     web_url = cfg.get("web_url") or f"http://127.0.0.1:{cfg['local_port']}/"
-
-    # Open in the default browser in a cross‑platform way
     try:
         webbrowser.open(web_url)
     except Exception:
-        # Browser could not be opened automatically; this is non‑fatal.
         pass
-
-    # Best‑effort warm‑up so that the first paint feels faster
     time.sleep(1)
     try:
         subprocess.run(
@@ -576,9 +542,7 @@ def run_webui(cfg):
             check=False,
         )
     except FileNotFoundError:
-        # If curl is not available on this machine, just skip the warm‑up
         pass
-
     return True, None
 
 
@@ -605,6 +569,8 @@ def main():
     else:
         ok, _ = run_webui(cfg)
         if not ok:
+            print("Opening config UI so you can fix the connection.", file=sys.stderr)
+            start_config_server()
             sys.exit(1)
 
 

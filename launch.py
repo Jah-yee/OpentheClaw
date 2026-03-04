@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""
-One-click entry: run OpenClaw launcher (works on macOS, Linux, Windows).
-Auto-detects platform; no need to pick a folder.
-"""
+"""One-click entry: run OpenClaw Web UI. Use from project root (e.g. python3 launch.py)."""
 import os
 import subprocess
 import sys
