@@ -9,16 +9,16 @@
 </p>
 
 <p align="center">
+<a href="https://www.producthunt.com/products/opentheclaw?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-opentheclaw" target="_blank" rel="noopener noreferrer"><img alt="OpentheClaw - One-click launcher for OpenClaw Web UI over SSH | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1089439&amp;theme=light&amp;t=1772620723494"></a>
+
+
+<p align="center">
   <a href="https://github.com/Jah-yee/OpentheClaw">
     <img src="https://img.shields.io/github/stars/Jah-yee/OpentheClaw?style=social" alt="GitHub stars" />
   </a>
   <img src="https://img.shields.io/badge/python-3.8%2B-3776AB?logo=python&logoColor=white" alt="Python 3.8+" />
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-111827" alt="Supported platforms" />
 </p>
-
-<p align="center">
-<a href="https://www.producthunt.com/products/opentheclaw?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-opentheclaw" target="_blank" rel="noopener noreferrer"><img alt="OpentheClaw - One-click launcher for OpenClaw Web UI over SSH | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1089439&amp;theme=light&amp;t=1772620723494"></a>
-
 
 ---
 
