@@ -78,31 +78,145 @@ opentheclaw/
 
 ## Getting started
 
-You can either download this project as a ZIP from GitHub or clone it:
+Download the project as a ZIP from GitHub (e.g. from [Releases](https://github.com/Jah-yee/OpentheClaw/releases)) or clone it:
 
 ```bash
 git clone https://github.com/Jah-yee/OpentheClaw.git
-cd OpentheClaw/opentheclaw
+cd OpentheClaw
 ```
 
-You can move the project folder anywhere; keep its internal structure unchanged.
+You can move the project folder anywhere (Desktop, Documents, etc.); keep its internal structure unchanged.
 
-**Flow:** (1) Configure once in the browser. (2) Use the one-click launcher (or `launch.py`) daily. No terminal or SSH typing needed.
+After you have the folder, do two things: (1) **configure once** in the browser, then (2) **use the launcher** whenever you want to open the Web UI. Below is the exact guidance for each platform and for the terminal.
 
-### 1. Configure once
+---
 
-Open the config UI: double‑click `mac/Click-once-OpenClawConfig.command` (macOS), `linux/Click-OpenClawConfig-linux.sh` (Linux; choose “Run” if asked), or `windows\Click-OpenClawConfig-windows.bat` (Windows). Your browser opens the config page. Fill in:
+### 1. Mac (macOS)
 
-- **Connection name** — any label (e.g. OpenClaw).
-- **SSH address** — same `user@host` as in a terminal (e.g. `root@43.210.12.345`).
-- **Web UI URL** — URL to open after the tunnel is up (e.g. `http://127.0.0.1:18789/`).
+**Configure once (first time only)**
 
-Use “Show advanced options” for ports and optional password. Then **Save** or **Save & start Web UI**.
+1. Open Finder and go to the project folder (the one that contains `launch.py`, `mac/`, `linux/`, `windows/`).
+2. Open the `mac` folder.
+3. Double‑click **`Click-once-OpenClawConfig.command`**. A Terminal window may flash; your default browser will open the config page.
+4. On the config page, fill in:
+   - **Connection name** — any label you like (e.g. OpenClaw or Staging server).
+   - **SSH address** — the same `user@host` you use in a terminal (e.g. `root@43.210.12.345`).
+   - **Web UI URL** — the URL that should open in the browser after the tunnel is ready (e.g. `http://127.0.0.1:18789/`).
+5. Optionally click “Show advanced options (ports)” to set local port, remote port, remote host, or an SSH password.
+6. Click **Save** to only save, or **Save & start Web UI** to save and start the tunnel and open the Web UI in the browser.
 
-### 2. Daily usage
+**Daily usage (start Web UI)**
 
-- **Start Web UI:** Run `launch.py` from the project root, or use `mac/OpenClaw.command`, `linux/OpenClaw.sh`, or `windows/OpenClaw.bat`. The launcher starts the SSH tunnel from `launcher/openclaw_launcher.json`, opens the Web UI in your browser, and optionally warms the page (best effort). If the tunnel fails, the config UI opens so you can fix credentials.
-- **Interactive SSH shell (macOS):** Double‑click `mac/OpenClawShell.command` for a normal SSH session with the same port forwarding.
+1. Go to the project folder in Finder.
+2. Open the `mac` folder.
+3. Double‑click **`OpenClaw.command`**. The launcher starts the SSH tunnel, opens the Web UI in your browser, and (if the tunnel fails) opens the config page so you can fix credentials.
+
+**Interactive SSH shell (optional)**
+
+- Double‑click **`mac/OpenClawShell.command`** for a normal SSH session with the same port forwarding and config.
+
+---
+
+### 2. Linux
+
+**Configure once (first time only)**
+
+1. Open your file manager and go to the project folder (the one that contains `launch.py`, `mac/`, `linux/`, `windows/`).
+2. Open the `linux` folder.
+3. Double‑click **`Click-OpenClawConfig-linux.sh`** (or right‑click → Run / Execute). If your desktop asks “Run in terminal”, “Execute”, or “Display”, choose **Run** or **Execute** (not “Display”).
+4. Your browser will open the config page. Fill in:
+   - **Connection name** — any label (e.g. OpenClaw).
+   - **SSH address** — same `user@host` as in a terminal (e.g. `root@43.210.12.345`).
+   - **Web UI URL** — URL to open after the tunnel is ready (e.g. `http://127.0.0.1:18789/`).
+5. Optionally use “Show advanced options (ports)” for ports and optional password.
+6. Click **Save** or **Save & start Web UI**.
+
+**Daily usage (start Web UI)**
+
+1. Go to the project folder in your file manager.
+2. Open the `linux` folder.
+3. Double‑click **`OpenClaw.sh`** (or right‑click → Run / Execute). Choose **Run** or **Execute** if prompted. The launcher starts the tunnel and opens the Web UI; if the tunnel fails, the config page opens so you can fix credentials.
+
+Alternatively, open a terminal, `cd` into the project folder, and run:  
+`./linux/OpenClaw.sh`  
+(or `bash linux/OpenClaw.sh` if needed).
+
+---
+
+### 3. Windows
+
+**Configure once (first time only)**
+
+1. Open File Explorer and go to the project folder (the one that contains `launch.py`, `mac/`, `linux/`, `windows/`).
+2. Open the `windows` folder.
+3. Double‑click **`Click-OpenClawConfig-windows.bat`**. A console window may appear briefly; your default browser will open the config page.
+4. On the config page, fill in:
+   - **Connection name** — any label (e.g. OpenClaw).
+   - **SSH address** — same `user@host` you use in a terminal (e.g. `root@43.210.12.345`).
+   - **Web UI URL** — URL to open after the tunnel is ready (e.g. `http://127.0.0.1:18789/`).
+5. Optionally use “Show advanced options (ports)” for ports and optional password.
+6. Click **Save** or **Save & start Web UI**.
+
+**Daily usage (start Web UI)**
+
+1. Go to the project folder in File Explorer.
+2. Open the `windows` folder.
+3. Double‑click **`OpenClaw.bat`**. The launcher starts the SSH tunnel and opens the Web UI in your browser. If the tunnel fails, you’ll see an error in the console and can run the config batch again to fix credentials.
+
+If you see “Python not found” or similar, install Python 3 from [python.org](https://www.python.org/) and ensure “Add Python to PATH” was checked during installation.
+
+---
+
+### 4. Terminal (any platform)
+
+If you prefer the command line for everything:
+
+**Get the project (if you haven’t already)**
+
+```bash
+git clone https://github.com/Jah-yee/OpentheClaw.git
+cd OpentheClaw
+```
+
+**Configure once (first time only)**
+
+From the project root (the folder that contains `launch.py`):
+
+```bash
+python3 launcher/openclaw_launcher.py config
+```
+
+(or `python launcher/openclaw_launcher.py config` on Windows if that’s how Python is invoked). Your browser opens the config page. Fill in connection name, SSH address, and Web UI URL; use “Show advanced options” if needed, then **Save** or **Save & start Web UI**. The config is written to `launcher/openclaw_launcher.json`.
+
+**Daily usage (start Web UI)**
+
+From the project root:
+
+```bash
+python3 launch.py
+```
+
+(or `python launch.py` on Windows). This starts the SSH tunnel and opens the Web UI in your browser. If the tunnel fails, the launcher prints an error and opens the config UI so you can fix credentials.
+
+**Interactive SSH shell (with port forwarding)**
+
+From the project root:
+
+```bash
+python3 launcher/openclaw_launcher.py shell
+```
+
+(or `python launcher/openclaw_launcher.py shell` on Windows). This opens an interactive SSH session using the same config and port forwarding.
+
+**Summary of terminal commands**
+
+| Goal              | Command (from project root)                    |
+|-------------------|------------------------------------------------|
+| Open config UI    | `python3 launcher/openclaw_launcher.py config` |
+| Start Web UI      | `python3 launch.py`                            |
+| SSH shell         | `python3 launcher/openclaw_launcher.py shell`  |
+
+On Windows, use `python` instead of `python3` if that’s what’s on your PATH.
 
 ## Config file
 
