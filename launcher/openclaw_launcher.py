@@ -351,6 +351,8 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
               type="number"
               name="local_port"
               placeholder="18789"
+              min="1"
+              max="65535"
               value="{esc(cfg.get("local_port", 18789))}"
             />
             <div class="hint">Port exposed on your machine. Default is usually fine.</div>
@@ -361,6 +363,8 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
               type="number"
               name="remote_port"
               placeholder="18789"
+              min="1"
+              max="65535"
               value="{esc(cfg.get("remote_port", 18789))}"
             />
             <div class="hint">Port where the Web UI is listening on the server.</div>
@@ -454,18 +458,24 @@ class ConfigHandler(http.server.BaseHTTPRequestHandler):
             else:
                 cfg["host"] = ssh_address
 
-        for key in ("name", "web_url", "password"):
+        for key in ("name", "web_url"):
             if key in DEFAULT_CONFIG:
                 val = params.get(key, [str(cfg.get(key, DEFAULT_CONFIG[key]))])[0].strip()
                 if val:
                     cfg[key] = val
+
+        # Password can be cleared by submitting an empty value
+        if "password" in params:
+            cfg["password"] = params["password"][0].strip()
 
         for key in ("local_port", "remote_port"):
             if key in DEFAULT_CONFIG:
                 raw_val = params.get(key, [str(cfg.get(key, DEFAULT_CONFIG[key]))])[0].strip()
                 if raw_val:
                     try:
-                        cfg[key] = int(raw_val)
+                        port_val = int(raw_val)
+                        if 1 <= port_val <= 65535:
+                            cfg[key] = port_val
                     except ValueError:
                         pass
 
